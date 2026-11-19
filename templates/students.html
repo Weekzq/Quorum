@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Ученики</h2>
+
+<form method="post" action="{{ url_for('students_add') }}" class="mb-4">
+  <label class="form-label">Вставь список (по одному в строке)</label>
+  <textarea name="names" class="form-control mb-2" rows="4"></textarea>
+  <button class="btn btn-primary">Добавить</button>
+</form>
+
+<form method="post" action="{{ url_for('students_presence') }}">
+  <h5>Отметь, кто есть (сними галочку у отсутствующих)</h5>
+  <ul class="list-group mb-3">
+    {% for s in students %}
+    <li class="list-group-item">
+      <label class="form-check-label">
+        <input class="form-check-input me-2" type="checkbox" name="present"
+               value="{{ s.id }}" {% if s.present %}checked{% endif %}>
+        {{ s.name }}
+      </label>
+    </li>
+    {% endfor %}
+  </ul>
+  <button class="btn btn-outline-primary mb-4">Сохранить присутствие</button>
+</form>
+
+<hr>
+
+<h5>Деление на команды (только присутствующие)</h5>
+<form id="groups-form" onsubmit="return false;">
+  <div class="row g-2 align-items-end mb-3">
+    <div class="col-auto">
+      <label class="form-label">Команд</label>
+      <input type="number" name="n_groups" value="3" min="2" max="10" class="form-control">
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-success" onclick="buildGroups()">
+        Разделить на команды
+      </button>
+    </div>
+  </div>
+</form>
+
+<div id="teams-result" class="mt-3"></div>
+
+<hr>
+<h5>Удалить ученика</h5>
+<ul class="list-group">
+  {% for s in students %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ s.name }}
+    <form method="post" action="{{ url_for('students_delete', sid=s.id) }}">
+      <button class="btn btn-sm btn-outline-danger">Удалить</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+
+<script>
+async function buildGroups() {
+  const form = document.getElementById("groups-form");
+  const data = new FormData(form);
+  const res = await fetch("{{ url_for('groups_fragment') }}", {
+    method: "POST",
+    body: data,
+  });
+  const html = await res.text();
+  const target = document.getElementById("teams-result");
+  target.innerHTML = html;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+</script>
+{% endblock %}

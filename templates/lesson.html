@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">Урок</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">Кто отвечает?</div>
+      <div class="card-body text-center">
+        <div class="display-5 mb-3">{{ last_name or "—" }}</div>
+        <form method="post" action="{{ url_for('lesson_pick', lid=lesson.id) }}">
+          <button class="btn btn-primary btn-lg">Выбрать ученика</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header">Счёт команд</div>
+      <div class="card-body">
+        {% for g in groups %}
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="fs-5">{{ g.name }}</span>
+          <span class="fs-4 fw-bold">{{ scores.get(g.id, 0) }}</span>
+          <form method="post" action="{{ url_for('lesson_score', lid=lesson.id) }}"
+                class="d-flex gap-1">
+            <input type="hidden" name="group_id" value="{{ g.id }}">
+            <button name="delta" value="1" class="btn btn-sm btn-success">+1</button>
+            <button name="delta" value="-1" class="btn btn-sm btn-outline-danger">−1</button>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">Заметки урока</div>
+  <div class="card-body">
+    <form method="post" action="{{ url_for('lesson_note', lid=lesson.id) }}">
+      <textarea name="note" class="form-control mb-2" rows="3">{{ lesson.note }}</textarea>
+      <button class="btn btn-outline-primary">Сохранить заметку</button>
+    </form>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between">
+  <span></span>
+  <a href="{{ url_for('lesson_result', lid=lesson.id) }}" class="btn btn-primary btn-lg">
+    Завершить урок
+  </a>
+</div>
+{% endblock %}

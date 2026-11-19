@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Итог урока</h2>
+
+<h4 class="mt-4">Счёт команд</h4>
+<ol class="list-group mb-4">
+  {% for s in scores %}
+  <li class="list-group-item d-flex justify-content-between">
+    <span>{{ s.group_name }}</span>
+    <b>{{ s.points }}</b>
+  </li>
+  {% endfor %}
+</ol>
+
+<h4>Кто отвечал</h4>
+<ul class="list-group mb-4">
+  {% for p in picks %}
+  <li class="list-group-item d-flex justify-content-between">
+    <span>{{ p.name }}</span>
+    <span class="text-muted">{{ p.picked_at }}</span>
+  </li>
+  {% endfor %}
+</ul>
+
+<h4>Заметки</h4>
+<div class="border rounded p-3 mb-4" style="white-space:pre-wrap">{{ lesson.note }}</div>
+
+<a href="{{ url_for('index') }}" class="btn btn-secondary">На главную</a>
+{% endblock %}

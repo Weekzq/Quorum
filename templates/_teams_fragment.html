@@ -1,0 +1,18 @@
+<div class="row mb-3">
+  {% for g in groups %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-header">{{ g.name }}</div>
+      <ul class="list-group list-group-flush">
+        {% for m in g.members %}
+        <li class="list-group-item">{{ m }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<form method="post" action="{{ url_for('lesson_start') }}">
+  <button class="btn btn-primary btn-lg">Начать урок</button>
+</form>

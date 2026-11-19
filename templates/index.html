@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <p class="hero__eyebrow">Помощник учителя на уроке</p>
+  <h1 class="hero__title">Урок идёт ровно,<br>пока всё под рукой.</h1>
+  <p class="hero__lead">
+    Отметьте присутствующих, разделите класс на команды и ведите урок по этапам —
+    с таймером, случайным выбором ученика и счётом команд. Без лишних кликов.
+  </p>
+
+  <div class="hero__actions">
+    <a href="{{ url_for('students') }}" class="btn-primary">Начать урок</a>
+    <span class="hero__hint">Список класса → команды → урок</span>
+  </div>
+</section>
+
+<section class="features">
+  <article class="feature">
+    <h3>Присутствие</h3>
+    <p>Галочки отмечают, кто на месте. Всё остальное считается само.</p>
+  </article>
+  <article class="feature">
+    <h3>Команды</h3>
+    <p>Класс делится на равные команды одним нажатием — случайно, без обид.</p>
+  </article>
+  <article class="feature">
+    <h3>Этапы</h3>
+    <p>Таймер на каждый этап урока: оргмомент, проверка, новая тема, итог.</p>
+  </article>
+  <article class="feature">
+    <h3>Выбор</h3>
+    <p>«Кто отвечает?» — честный случайный выбор только из присутствующих.</p>
+  </article>
+</section>
+
+<section class="closing">
+  <p>Всё, что нужно на уроке — на одном экране.</p>
+  <a href="{{ url_for('students') }}" class="btn-primary">Открыть класс</a>
+</section>
+{% endblock %}
